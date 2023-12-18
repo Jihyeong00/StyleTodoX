@@ -2,7 +2,11 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 
 const useInputs = <T>(
   initialValue: T
-): [T, (event: ChangeEvent<HTMLInputElement>) => void, Dispatch<SetStateAction<T>>] => {
+): [
+  T,
+  (event: ChangeEvent<HTMLInputElement>) => void,
+  Dispatch<SetStateAction<T>>,
+] => {
   const [values, setValues] = useState<T>(initialValue);
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {

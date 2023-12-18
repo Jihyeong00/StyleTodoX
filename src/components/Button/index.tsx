@@ -17,9 +17,7 @@ const Button: React.FC<PropsWithChildren<Props>> = ({
 }) => {
   return (
     <div style={containerStyle}>
-      <button>
-        {children}
-      </button>
+      <button>{children}</button>
     </div>
   );
 };
