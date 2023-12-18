@@ -8,6 +8,15 @@ type propsType = {
 }
 
 const TodoList = ({todoList, setTodoList}: propsType) => {
+
+    const checkTodo = (id: number) => {
+        const _todoList = [...todoList]
+        const todo = _todoList.find((todo) => todo.id === id)!
+
+        todo.state = !todo.state
+        setTodoList(_todoList)
+    }
+
     const updateTodo = (id: number, content: string) => {
         const _todoList = [...todoList]
         const todo = _todoList.find((todo) => todo.id === id)!
@@ -24,12 +33,13 @@ const TodoList = ({todoList, setTodoList}: propsType) => {
         }
     }
 
+
     return (
-        <>
+        <div className={'flex flex-col gap-2'}>
             {todoList.map((todo) => (
-                <OneTodo key={todo.id} todo={todo} updateTodo={updateTodo} deleteTodo={deleteTodo}/>
+                <OneTodo key={todo.id} todo={todo} checkTodo={checkTodo} updateTodo={updateTodo} deleteTodo={deleteTodo}/>
             ))}
-        </>
+        </div>
     );
 };
 export default TodoList;

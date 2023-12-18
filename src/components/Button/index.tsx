@@ -1,4 +1,3 @@
-import * as S from './style';
 import React, { CSSProperties, PropsWithChildren } from 'react';
 
 export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -18,9 +17,9 @@ const Button: React.FC<PropsWithChildren<Props>> = ({
 }) => {
   return (
     <div style={containerStyle}>
-      <S.Button variant={variant} shape={shape} size={size} {...rest}>
+      <button>
         {children}
-      </S.Button>
+      </button>
     </div>
   );
 };

@@ -1,24 +1,29 @@
-import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faBan, faPen } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+"use client"
+
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCheck, faBan, faPen} from "@fortawesome/free-solid-svg-icons";
+import {useState} from "react";
 import {ITodoType} from "@/types/todo";
 import useTextarea from "@/hooks/use-textarea";
-import {flexAlignCenter, flexCenter} from "@/styles/common";
 
 type propsType = {
     todo: ITodoType,
+    checkTodo: (id: number) => void
     updateTodo: (id: number, editContent: string) => void
     deleteTodo: (id: number) => void
 }
 
-const OneTodo = ({ todo, updateTodo, deleteTodo }:propsType) => {
-    const { id, state, title, content } = todo;
+const OneTodo = ({todo, updateTodo, deleteTodo, checkTodo}: propsType) => {
+    const {id, state, title, content} = todo;
     const [isEditMode, setIsEditMode] = useState(false);
     const [editContent, onChangeEditContent] = useTextarea(content);
 
+    const handleCheckTodo = ()=> {
+        checkTodo(id)
+    }
+
     const handleTodoEdit = () => {
-        if(!isEditMode) return setIsEditMode(true)
+        if (!isEditMode) return setIsEditMode(true)
         updateTodo(id, editContent)
         setIsEditMode(false)
     }
@@ -27,91 +32,26 @@ const OneTodo = ({ todo, updateTodo, deleteTodo }:propsType) => {
         deleteTodo(id)
     }
 
-
     return (
-        <S.Wrapper state={state}>
-            <S.Header>
-                <S.StateBox state={state}>
-                    <FontAwesomeIcon icon={faCheck} />
-                </S.StateBox>
-                <S.Title state={state}>
+        <div className={'flex flex-col border-origin p-2 rounded'}>
+            <div className={'flex justify-between'}>
+                <div onClick={handleCheckTodo}>
+                    <FontAwesomeIcon className={'cursor-pointer'} icon={faCheck}/>
+                </div>
+                <div className={'flex justify-between'}>
+                    <span className={state ? 'line-through' : ''}>
                     {title}
-                    <div>
-                        <FontAwesomeIcon icon={faPen} onClick={handleTodoEdit}/>
-                        <FontAwesomeIcon icon={faBan} onClick={handleTodoDelete}/>
+                    </span>
+                    <div className={`flex gap-2 items-center ml-2`}>
+                        <FontAwesomeIcon className={'cursor-pointer'} icon={faPen} onClick={handleTodoEdit}/>
+                        <FontAwesomeIcon className={'cursor-pointer'} icon={faBan} onClick={handleTodoDelete}/>
                     </div>
-                </S.Title>
-            </S.Header>
-            <S.Content state={state}>
-                {isEditMode ? <textarea value={editContent} onChange={onChangeEditContent}></textarea> : content}
-            </S.Content>
-        </S.Wrapper>
+                </div>
+            </div>
+            <div>
+                {isEditMode ? <textarea value={editContent} onChange={onChangeEditContent}></textarea> : <span className={state ? 'line-through' : ''}>{content}</span>}
+            </div>
+        </div>
     );
 };
 export default OneTodo;
-
-const Wrapper = styled.li<Pick<ITodoType,"state">>`
-    width: 100%;
-    background-color: ${({ theme }) => theme.PALETTE.white};
-    border: 1px solid #999;
-    margin: 16px 0;
-    list-style: none;
-    border-radius: 8px;
-    background-color: ${({ state, theme }) =>
-    state ? theme.PALETTE.gray[100] : theme.PALETTE.white};
-`;
-
-const Header = styled.div`
-    border-bottom: 1px dotted #999;
-    ${flexAlignCenter};
-    padding: 8px 16px;
-    height: 48px;
-`;
-
-const Title = styled.h1<Pick<ITodoType,"state">>`
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-    text-decoration: ${({ state }) => (state ? "line-through" : "none")};
-    & svg {
-        cursor: pointer;
-        margin-left: 16px;
-        :hover {
-            transform: scale(1.2);
-        }
-    }
-`;
-
-const StateBox = styled.div<Pick<ITodoType,"state">>`
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    margin-right: 8px;
-    ${flexCenter};
-    color: ${({ state }) => (state ? "#3CB371" : "#999")};
-    cursor: pointer;
-    :hover {
-        transform: scale(1.2);
-    }
-`;
-
-const Content = styled.div<Pick<ITodoType,"state">>`
-    padding: 16px;
-    text-decoration: ${({ state }) => (state ? "line-through" : "none")};
-    & textarea {
-        width: 100%;
-        height: 100%;
-        border: 1px dotted #999;
-        outline: none;
-        resize: none;
-    }
-`;
-
-const S = {
-    Wrapper,
-    Header,
-    StateBox,
-    Title,
-    Content,
-};

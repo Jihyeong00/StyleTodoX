@@ -1,74 +1,38 @@
-'use client';
+"use client"
 
-import styled from 'styled-components';
-import {useState} from 'react';
 import SignInForm from "@/app/(main)/_components/SignIn.tsx";
+import {MouseEventHandler, useState} from "react";
 import SignUpForm from "@/app/(main)/_components/SignUp.tsx";
-import {flexCenter} from "@/styles/common";
+import {Button} from "@/components/ui/button";
 
-const MainPage = () => {
+export default function Page() {
+
     const [isFormLogin, setIsFormLogin] = useState<boolean>(true);
 
-    const onClickFormHeader = (e: React.MouseEvent<HTMLDivElement>) => {
-        const target = e.target as typeof e.target & {
-            innerText: string;
-        };
-        const {innerText} = target;
-        if (innerText === 'LOGIN') return setIsFormLogin(true);
-        setIsFormLogin(false);
+    const onClickFormHeader: MouseEventHandler<HTMLButtonElement> = (event) => {
+        const target = event.target as typeof event.target & {
+            innerHTML: string
+        }
+        if (target.innerHTML === 'LOGIN') {
+            setIsFormLogin(true)
+        } else {
+            setIsFormLogin(false)
+        }
     };
 
     return (
-        <S.Container>
-            <S.Header>
-                <S.LoginHeader isFormLogin={isFormLogin} onClick={onClickFormHeader}>
+        <div className={'h-[calc(80vh-20px)] w-[400px] flex flex-col justify-center'}>
+            <div className={'grid grid-cols-2 w-full text-center cursor-pointer'}>
+                <Button className={`rounded-none rounded-tl-sm ${isFormLogin ? 'bg-black bg-opacity-60' : ''}`}
+                        onClick={onClickFormHeader}>
                     LOGIN
-                </S.LoginHeader>
-                <S.SignUpHeader isFormLogin={isFormLogin} onClick={onClickFormHeader}>
+                </Button>
+                <Button className={`rounded-none rounded-tr-sm ${!isFormLogin ? 'bg-black bg-opacity-60' : ''}`}
+                        onClick={onClickFormHeader}>
                     SIGN
-                </S.SignUpHeader>
-            </S.Header>
+                </Button>
+            </div>
             {isFormLogin ? <SignInForm/> : <SignUpForm/>}
-        </S.Container>
+        </div>
     );
-};
-export default MainPage;
-
-const Container = styled.div`
-  width: 100%;
-  height: calc(100vh - 60px);
-  ${flexCenter};
-  flex-direction: column;
-`;
-
-const Header = styled.div`
-  width: 360px;
-  height: 48px;
-  display: flex;
-  background-color: ${({theme}) => theme.PALETTE.primary[300]};
-
-  div {
-    ${flexCenter};
-    width: 50%;
-    cursor: pointer;
-
-    :hover {
-      opacity: 0.7;
-    }
-  }
-`;
-
-const LoginHeader = styled.div<{ isFormLogin: boolean }>`
-  background-color: ${({isFormLogin}) => (isFormLogin ? '#e0e0e0' : '#f5f5f5')};
-`;
-
-const SignUpHeader = styled.div<{ isFormLogin: boolean }>`
-  background-color: ${({isFormLogin}) => (isFormLogin ? '#f5f5f5' : '#e0e0e0')};
-`;
-
-const S = {
-    Container,
-    Header,
-    LoginHeader,
-    SignUpHeader,
 };

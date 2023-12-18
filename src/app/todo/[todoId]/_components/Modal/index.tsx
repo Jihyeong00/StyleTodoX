@@ -1,6 +1,8 @@
-import styled from "styled-components";
-import {flexAlignCenter, flexCenter, modalBackGround} from "@/styles/common";
+"use client"
+
 import {FormEvent} from "react";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 type propsType = {
     onAddToDo: (e: FormEvent<HTMLFormElement>) => void
@@ -10,100 +12,20 @@ type propsType = {
 const TodoAddModal = ({onAddToDo, onClose}: propsType) => {
 
     return (
-        <S.Wrapper>
-            <S.Form onSubmit={onAddToDo}>
-                <S.Title>
-                    <span>ADD TODO LIST</span>
-                    <button type="button" onClick={onClose}>x</button>
-                </S.Title>
-                <S.Content>
-                    <input placeholder="제목을 입력해주세요" name="title"/>
-                    <textarea placeholder="할 일 내용을 입력해주세요" name="content"></textarea>
-                </S.Content>
-                <S.Button>ADD</S.Button>
-            </S.Form>
-        </S.Wrapper>
+        <div>
+            <div onClick={onClose} className={'modalBackGround'}/>
+            <form className={'p-2 absolute grid grid-rows-5 top-1/2 left-1/2 bg-white flex-col transform translate-x-[-50%] translate-y-[-50%] w-1/3 h-1/3'} onSubmit={onAddToDo}>
+                <div className={'row-span-1 grid- flex justify-between items-start'}>
+                    <span className={'text-4xl'}>ADD TODO LIST</span>
+                    <button type="button" onClick={onClose}><FontAwesomeIcon size={"xl"} icon={faTimes}/></button>
+                </div>
+                <div className={'row-span-3 flex flex-col'}>
+                    <input className={'row-span-1 h-1/5'} placeholder="제목을 입력해주세요" name="title"/>
+                    <textarea className={'row-span-2 h-4/5'} placeholder="할 일 내용을 입력해주세요" name="content"></textarea>
+                </div>
+                <button>ADD</button>
+            </form>
+        </div>
     );
 };
 export default TodoAddModal;
-
-const Wrapper = styled.div`
-  ${modalBackGround};
-  z-index: 1000;
-`;
-
-const Form = styled.form`
-  width: 480px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: ${({theme}) => theme.PALETTE.white};
-  border-radius: 8px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-  padding: 32px;
-`;
-
-const Title = styled.div`
-  font-size: 24px;
-  ${flexAlignCenter};
-  justify-content: space-between;
-
-  & > button {
-    border: none;
-    cursor: pointer;
-
-    :hover {
-      transform: scale(1.2);
-    }
-  }
-`;
-
-const Content = styled.div`
-  ${flexCenter};
-  margin-top: 16px;
-  flex-direction: column;
-
-  & > input {
-    width: 100%;
-    height: 40px;
-    border: none;
-    outline: none;
-    border-radius: 8px;
-    padding: 0 16px;
-    margin-bottom: 16px;
-  }
-
-  & > textarea {
-    width: 100%;
-    height: 200px;
-    border: none;
-    outline: none;
-    border-radius: 8px;
-    padding: 16px;
-  }
-`;
-
-const Button = styled.button`
-  display: block;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background-color: ${({theme}) => theme.PALETTE.primary[300]};
-  color: ${({theme}) => theme.PALETTE.fontColor};
-  margin: 0 auto;
-  cursor: pointer;
-
-  :hover {
-    background-color: transparent;
-    color: ${({theme}) => theme.PALETTE.primary[300]};
-  }
-`;
-
-const S = {
-    Wrapper,
-    Form,
-    Content,
-    Title,
-    Button,
-};
