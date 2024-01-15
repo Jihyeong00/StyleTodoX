@@ -4,6 +4,8 @@ import SignInForm from '@/app/(main)/_components/SignIn.tsx';
 import { MouseEventHandler, useState } from 'react';
 import SignUpForm from '@/app/(main)/_components/SignUp.tsx';
 import { Button } from '@/components/ui/button';
+import {stylex} from "@stylexjs/stylex";
+import S from "@/app/(main)/styles";
 
 export default function Page() {
   const [isFormLogin, setIsFormLogin] = useState<boolean>(true);
@@ -21,21 +23,17 @@ export default function Page() {
 
   return (
     <div
-      className={'h-[calc(80vh-20px)] w-[400px] flex flex-col justify-center'}
+        {...stylex.props(S.container)}
     >
-      <div className={'grid grid-cols-2 w-full text-center cursor-pointer'}>
+      <div {...stylex.props(S.buttonBar)}>
         <Button
-          className={`rounded-none rounded-tl-sm ${
-            isFormLogin ? 'bg-black bg-opacity-60' : ''
-          }`}
+            {...stylex.props(S.leftButton, isFormLogin && S.activeButton)}
           onClick={onClickFormHeader}
         >
           LOGIN
         </Button>
         <Button
-          className={`rounded-none rounded-tr-sm ${
-            !isFormLogin ? 'bg-black bg-opacity-60' : ''
-          }`}
+            {...stylex.props(S.rightButton, !isFormLogin && S.activeButton)}
           onClick={onClickFormHeader}
         >
           SIGN
