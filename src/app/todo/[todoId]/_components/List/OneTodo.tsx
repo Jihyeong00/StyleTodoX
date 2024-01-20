@@ -5,6 +5,8 @@ import { faCheck, faBan, faPen } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { ITodoType } from '@/types/todo';
 import useTextarea from '@/hooks/use-textarea';
+import { stylex } from '@stylexjs/stylex';
+import { S } from './OneTodo.style';
 
 type propsType = {
   todo: ITodoType;
@@ -33,21 +35,21 @@ const OneTodo = ({ todo, updateTodo, deleteTodo, checkTodo }: propsType) => {
   };
 
   return (
-    <div className={'flex flex-col border-origin p-2 rounded'}>
-      <div className={'flex justify-between'}>
-        <div onClick={handleCheckTodo}>
-          <FontAwesomeIcon className={'cursor-pointer'} icon={faCheck} />
+    <div {...stylex.props(S.container)}>
+      <div {...stylex.props(S['flex-between'])}>
+        <div {...stylex.props(S.pointer)} onClick={handleCheckTodo}>
+          <FontAwesomeIcon icon={faCheck} />
         </div>
-        <div className={'flex justify-between'}>
+        <div {...stylex.props(S['flex-between'])}>
           <span className={state ? 'line-through' : ''}>{title}</span>
           <div className={`flex gap-2 items-center ml-2`}>
             <FontAwesomeIcon
-              className={'cursor-pointer'}
+              {...stylex.props(S.pointer)}
               icon={faPen}
               onClick={handleTodoEdit}
             />
             <FontAwesomeIcon
-              className={'cursor-pointer'}
+              {...stylex.props(S.pointer)}
               icon={faBan}
               onClick={handleTodoDelete}
             />

@@ -5,7 +5,7 @@ import { MouseEventHandler, useState } from 'react';
 import SignUpForm from '@/app/(main)/_components/SignUp.tsx';
 import { Button } from '@/components/ui/button';
 import {stylex} from "@stylexjs/stylex";
-import S from "@/app/(main)/styles";
+import { S } from './styles';
 
 export default function Page() {
   const [isFormLogin, setIsFormLogin] = useState<boolean>(true);

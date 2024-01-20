@@ -15,6 +15,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import formSchema from "@/app/(main)/_components/SignUp.tsx/schema";
+import { S } from './styles';
+import { stylex } from '@stylexjs/stylex';
 
 const SignUpForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -37,7 +39,7 @@ const SignUpForm = () => {
   return (
     <Form {...form}>
       <form
-        className={'w-[400px] border-origin p-2'}
+      {...stylex.props(S.form)}
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormField
